@@ -10,7 +10,16 @@ const statContainer = {
 
 const colors = {
   white: `rgba(255, 255, 255, 1)`,
+  black: `rgba(0, 0, 0, 1)`,
   shadow: `rgba(0, 0, 0, 0.7)`,
+};
+
+const congratulationText = {
+  text: `Ура вы победили! \nСписок результатов: `.split(`\n`),
+  font: `PT Mono`,
+  fontSize: 16,
+  offset: 30,
+  color: colors.black,
 };
 
 window.renderStatistics = function (ctx, names, times) {
@@ -22,35 +31,24 @@ window.renderStatistics = function (ctx, names, times) {
 
   ctx.fillStyle = colors.white;
   ctx.fillRect(statContainer.x, statContainer.y, statContainer.width, statContainer.height);
+
+  ctx.fillStyle = congratulationText.color;
+  ctx.font = `${congratulationText.fontSize}px ${congratulationText.font}`;
+  ctx.fillText(
+      congratulationText.text[0],
+      statContainer.x + congratulationText.offset,
+      statContainer.y + congratulationText.offset
+  );
+  ctx.fillText(
+      congratulationText.text[1],
+      statContainer.x + congratulationText.offset,
+      statContainer.y + congratulationText.offset + congratulationText.fontSize
+  );
 };
 
 /*
 В новом файле js/stat.js определите функцию renderStatistics, которая будет являться методом объекта window,
 со следующими аргументами:
-
-ctx — канвас на котором рисуется игра.
-names — массив, с именами игроков прошедших уровень. Имя самого игрока — Вы.
-Массив имён формируется случайным образом.
-times — массив, по длине совпадающий с массивом names.
-Массив содержит время прохождения уровня соответствующего игрока из массива names.
-Время прохождения уровня задано в миллисекундах.
-Эта функция будет вызываться каждый раз когда игрок проходит уровень.
-Чтобы успешно пройти уровень, надо выстрелить фаерболом (клавиша Shift) в забор.
-
-При вызове этой функции на канвас ctx должны быть выведены следующие элементы:
-
-Белое облако с координатами [100, 10] высотой 270px и шириной 420px.
-Облако может быть как правильным многоугольником, нарисованным методом fillRect,
-так и неправильным нарисованным с помощью методов beginPath, moveTo, closePath, fill и других.
-
-Под облаком должна располагаться тень: многоугольник такой же формы, залитый цветом rgba(0, 0, 0, 0.7)
-(полупрозрачный чёрный), смещённый относительно белого на 10px вниз и вправо.
-
-На облаке должен быть отрисован текст сообщения ’Ура вы победили! \nСписок результатов: ’ с помощью метода fillText.
-Текст должен быть набран шрифтом PT Mono размером 16px.
-
-Обратите внимание. Особенностью отрисовки текста на канвасе является то, что он не поддерживает перенос,
-поэтому каждая новая строчка должна быть отрисована новым вызовом метода fillText или strokeText.
 
 После сообщения о победе должна располагаться гистограмма времён участников. Параметры гистограммы следующие:
 Высота гистограммы 150px.
