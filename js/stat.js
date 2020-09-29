@@ -14,6 +14,17 @@ const colors = {
   shadow: `rgba(0, 0, 0, 0.7)`,
 };
 
+const histogram = {
+  x: statContainer.x + 40,
+  y: statContainer.y + statContainer.height - 20,
+  barOffset: 50,
+  barWidth: 40,
+  maxHeight: 150,
+  font: `PT Mono`,
+  fontSize: 16,
+  fontColor: colors.black,
+};
+
 const congratulationText = {
   text: `Ура вы победили! \nСписок результатов: `.split(`\n`),
   font: `PT Mono`,
@@ -23,6 +34,7 @@ const congratulationText = {
 };
 
 window.renderStatistics = function (ctx, names, times) {
+
   ctx.fillStyle = colors.shadow;
   ctx.fillRect(
       statContainer.x + statContainer.shadowOffset,
@@ -44,6 +56,36 @@ window.renderStatistics = function (ctx, names, times) {
       statContainer.x + congratulationText.offset,
       statContainer.y + congratulationText.offset + congratulationText.fontSize
   );
+
+  let maxScore = Math.max(...times);
+  let scoreHeight = maxScore / histogram.maxHeight;
+
+  for (let i = 0; i < times.length; i++) {
+    drawBar(ctx,
+        names[i],
+        colors.black,
+        Math.floor(times[i]),
+        i * (histogram.barWidth + histogram.barOffset),
+        histogram.barWidth,
+        Math.floor(times[i] / scoreHeight)
+    );
+  }
+
+};
+
+let drawBar = function (ctx, name, color, score, offset, w, h) {
+  let x = histogram.x + offset;
+
+  ctx.fillStyle = histogram.fontColor;
+  ctx.font = `${histogram.fontSize}px ${histogram.font}`;
+  ctx.fillText(name, x, histogram.y);
+
+  ctx.fillStyle = color;
+  ctx.fillRect(x, histogram.y - histogram.fontSize - h, w, h);
+
+  ctx.fillStyle = histogram.fontColor;
+  ctx.font = `${histogram.fontSize}px ${histogram.font}`;
+  ctx.fillText(score, x, histogram.y - histogram.fontSize - h - histogram.fontSize + 10);
 };
 
 /*
