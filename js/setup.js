@@ -35,6 +35,9 @@ green`.split(`\n`);
 
 const wizardsContainer = document.querySelector(`.setup-similar-list`);
 const wizardTemplate = document.querySelector(`#similar-wizard-template`).content.firstElementChild;
+const openSetupBtn = document.querySelector(`.setup-open`);
+const closeSetupBtn = document.querySelector(`.setup-close`);
+const setupOverlay = document.querySelector(`.setup`);
 
 // Mock data ///////////////////////
 
@@ -44,10 +47,20 @@ const wizards = generateRandomWizards();
 
 createSimilarWizardsHTMLElement(wizards);
 
-document.querySelector(`.setup`).classList.remove(`hidden`);
 document.querySelector(`.setup-similar`).classList.remove(`hidden`);
 
+openSetupBtn.onclick = openSetup;
+closeSetupBtn.onclick = closeSetup;
+
 // Functions //////////////////////
+
+function openSetup() {
+  setupOverlay.classList.remove(`hidden`);
+}
+
+function closeSetup() {
+  setupOverlay.classList.add(`hidden`);
+}
 
 function createSimilarWizardsHTMLElement(data) {
   const fragment = document.createDocumentFragment();
