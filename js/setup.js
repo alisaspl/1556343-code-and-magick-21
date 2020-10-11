@@ -38,6 +38,17 @@ const wizardTemplate = document.querySelector(`#similar-wizard-template`).conten
 const openSetupBtn = document.querySelector(`.setup-open`);
 const closeSetupBtn = document.querySelector(`.setup-close`);
 const setupOverlay = document.querySelector(`.setup`);
+const openSetupIcon = document.querySelector(`.setup-open-icon`);
+const userNameInput = document.querySelector(`.setup-user-name`);
+const setupForm = document.querySelector(`.setup-wizard-form`);
+const setupSubmitBtn = document.querySelector(`.setup-submit`);
+
+const focusIn = {
+  openIcon: false,
+  userNameInput: false,
+  closeSetupBtn: false,
+  setupSubmitBtn: false,
+};
 
 // Mock data ///////////////////////
 
@@ -52,7 +63,44 @@ document.querySelector(`.setup-similar`).classList.remove(`hidden`);
 openSetupBtn.onclick = openSetup;
 closeSetupBtn.onclick = closeSetup;
 
+bindFocus(openSetupIcon, `openIcon`);
+bindFocus(userNameInput, `userNameInput`);
+bindFocus(closeSetupBtn, `closeSetupBtn`);
+bindFocus(setupSubmitBtn, `setupSubmitBtn`);
+
+setupSubmitBtn.onclick = function () {
+  if (isSetupOverlayOpened()) {
+    setupForm.submit();
+  }
+};
+
+document.addEventListener(`keydown`, function (ev) {
+  if (ev.key === `Enter`) {
+    if (!isSetupOverlayOpened() && focusIn.openIcon) {
+      openSetup();
+    } else if (isSetupOverlayOpened() && focusIn.closeSetupBtn) {
+      closeSetup();
+    } else if (isSetupOverlayOpened() && focusIn.setupSubmitBtn) {
+      setupForm.submit();
+    }
+  }
+  if (ev.key === `Escape`) {
+    if (isSetupOverlayOpened() && !focusIn.userNameInput) {
+      closeSetup();
+    }
+  }
+});
+
 // Functions //////////////////////
+
+function bindFocus(el, focusInAttrName) {
+  el.onmouseover = function () {
+    focusIn[focusInAttrName] = true;
+  };
+  el.onmouseout = function () {
+    focusIn[focusInAttrName] = false;
+  };
+}
 
 function openSetup() {
   setupOverlay.classList.remove(`hidden`);
@@ -60,6 +108,10 @@ function openSetup() {
 
 function closeSetup() {
   setupOverlay.classList.add(`hidden`);
+}
+
+function isSetupOverlayOpened() {
+  return !setupOverlay.classList.contains(`hidden`);
 }
 
 function createSimilarWizardsHTMLElement(data) {
