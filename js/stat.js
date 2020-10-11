@@ -61,8 +61,7 @@ window.renderStatistics = function (ctx, names, times) {
       statContainer.y + congratulationText.offset + congratulationText.fontSize
   );
 
-  let maxScore = Math.max(...times);
-  let scoreHeight = maxScore / histogram.maxHeight;
+  const scoreHeight = Math.max(...times) / histogram.maxHeight;
 
   for (let i = 0; i < times.length; i++) {
     let color;
@@ -84,8 +83,8 @@ window.renderStatistics = function (ctx, names, times) {
 
 };
 
-let drawBar = function (ctx, name, color, score, offset, w, h) {
-  let x = histogram.x + offset;
+const drawBar = function (ctx, name, color, score, offset, w, h) {
+  const x = histogram.x + offset;
 
   ctx.fillStyle = histogram.fontColor;
   ctx.font = `${histogram.fontSize}px ${histogram.font}`;

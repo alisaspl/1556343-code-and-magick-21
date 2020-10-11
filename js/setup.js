@@ -69,14 +69,17 @@ function generateRandomWizards() {
   const data = [];
   for (let i = 0; i < 4; i++) {
     data.push({
-      name: `${wizardsNames[random(wizardsNames.length)]} ${wizardsSurnames[random(wizardsSurnames.length)]}`,
-      coatColor: wizardsCoatColors[random(wizardsCoatColors.length)],
-      eyesColor: wizardsEyesColors[random(wizardsEyesColors.length)],
+      name: `${getRandomArrayElement(wizardsNames)} ${getRandomArrayElement(wizardsSurnames)}`,
+      coatColor: getRandomArrayElement(wizardsCoatColors),
+      eyesColor: getRandomArrayElement(wizardsEyesColors),
     });
   }
   return data;
 }
 
-function random(max) {
+function getRandomInteger(max) {
   return Math.floor(Math.random() * max);
+}
+function getRandomArrayElement(array) {
+  return array[getRandomInteger(array.length)];
 }
