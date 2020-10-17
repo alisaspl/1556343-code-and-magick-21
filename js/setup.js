@@ -33,6 +33,12 @@ blue
 yellow
 green`.split(`\n`);
 
+const wizardFireballColor = `#ee4830
+#30a8ee
+#5ce6c0
+#e848d5
+#e6e848`.split(`\n`);
+
 const wizardsContainer = document.querySelector(`.setup-similar-list`);
 const wizardTemplate = document.querySelector(`#similar-wizard-template`).content.firstElementChild;
 const openSetupBtn = document.querySelector(`.setup-open`);
@@ -42,6 +48,14 @@ const openSetupIcon = document.querySelector(`.setup-open-icon`);
 const userNameInput = document.querySelector(`.setup-user-name`);
 const setupForm = document.querySelector(`.setup-wizard-form`);
 const setupSubmitBtn = document.querySelector(`.setup-submit`);
+
+const setupCoatColor = document.querySelector(`.setup-wizard .wizard-coat`);
+const setupEyesColor = document.querySelector(`.setup-wizard .wizard-eyes`);
+const setupFireballColor = document.querySelector(`.setup-fireball-wrap`);
+
+const fireballColorInput = document.querySelector(`input[name="fireball-color"]`);
+const coatColorInput = document.querySelector(`input[name="coat-color"]`);
+const eyesColorInput = document.querySelector(`input[name="eyes-color"]`);
 
 const focusIn = {
   openIcon: false,
@@ -91,7 +105,19 @@ document.addEventListener(`keydown`, function (ev) {
   }
 });
 
+changeColorOnClick(setupCoatColor, wizardsCoatColors, coatColorInput);
+changeColorOnClick(setupEyesColor, wizardsEyesColors, eyesColorInput);
+changeColorOnClick(setupFireballColor, wizardFireballColor, fireballColorInput, `background`);
+
 // Functions //////////////////////
+
+function changeColorOnClick(el, arr, input, styleAttr = `fill`) {
+  el.onclick = function () {
+    const color = getRandomArrayElement(arr);
+    el.style[styleAttr] = color;
+    input.value = color;
+  };
+}
 
 function bindFocus(el, focusInAttrName) {
   el.onmouseover = function () {
